@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:padding="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_bar_text_view"
+                android:layout_width="0dp"
+                style="@style/SearchViewStyle"
+                android:textSize="12sp"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                app:layout_constraintWidth_percent="0.6"
+                app:layout_constraintHeight_percent="0.06"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/search"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/locationIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.0"/>
+
+            <ImageView
+                android:id="@+id/logout_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/locationTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/locationTextView"
+                app:srcCompat="@drawable/baseline_logout_24"
+                app:tint="@color/white"
+                app:layout_constraintStart_toEndOf="@id/locationTextView"/>
+
+            <TextView
+                android:id="@+id/locationTextView"
+                android:text="@string/location"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.2"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/logout_view"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_lock_24"
+                app:tint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/search_bar_text_view"
+                app:layout_constraintStart_toEndOf="@id/locationIcon"/>
+
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/locationTextView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_location_on_24"
+                app:tint="@color/white"
+                app:layout_constraintStart_toEndOf="@id/search_bar_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/search_bar_text_view"/>
+
+            <TextView
+                android:id="@+id/text_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintHorizontal_bias="0.07"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/user_image"
+                app:layout_constraintTop_toBottomOf="@id/search_bar_text_view" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/user_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.12"
+                app:layout_constraintLeft_toRightOf="@id/emailIdText"
+                app:layout_constraintTop_toBottomOf="@id/search_bar_text_view"
+                app:layout_constraintBottom_toTopOf="@id/categories_recycler_view"
+                app:layout_constraintWidth_percent="0.25"
+                app:srcCompat="@drawable/profile"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/emailIdText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email_id"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/categoryText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_user_name"
+                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.05"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.1"
+                app:layout_constraintHorizontal_bias="0.375"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emailIdText"
+                app:layout_constraintVertical_bias="0.25"
+                app:layout_constraintBottom_toTopOf="@id/venueText"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/turf_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.68"
+                app:layout_constraintTop_toBottomOf="@id/categories_recycler_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/categoryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/categories"
+                android:textColor="#00BCD4"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.01"
+                app:layout_constraintBottom_toTopOf="@id/categories_recycler_view" />
+
+            <TextView
+                android:id="@+id/venueText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/venue"
+                android:textColor="#00BCD4"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.01"
+                app:layout_constraintBottom_toTopOf="@id/turf_recycler_view" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
