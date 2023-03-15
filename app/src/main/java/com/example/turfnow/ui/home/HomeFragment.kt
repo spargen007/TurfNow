@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,8 +46,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         turfRecyclerview = binding.turfRecyclerView
-        val turfAdapter = TurfAdapter{
+        val turfAdapter = TurfAdapter(context = requireContext()){
             Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
+            val action: NavDirections = HomeFragmentDirections.actionHomeFragmentToSingleTurfFragment(it)
+            findNavController().navigate(action)
         }
         turfRecyclerview.adapter=turfAdapter
         turfRecyclerview.layoutManager= LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -63,7 +67,7 @@ class HomeFragment : Fragment() {
         homeViewModel.categoryList.observe(viewLifecycleOwner){
             categoryAdapter.submitList(it)
         }
-
+        println(args.user.id)
         binding.textUserName.text = args.user.name
         binding.emailIdText.text = args.user.email_id
 

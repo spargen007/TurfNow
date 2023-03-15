@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.turfnow.database.entity.User
 import com.example.turfnow.repository.UserRepository
 import com.example.turfnow.result.Response
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -12,7 +13,7 @@ class SignUpViewModel(private var userRepository: UserRepository):ViewModel(){
   val insertUsersDataStatus: LiveData<Response?> = _insertUsersDataStatus
   fun register(user: User){
     _insertUsersDataStatus.postValue(null)
-    viewModelScope.launch {
+    viewModelScope.launch(Dispatchers.IO) {
       _insertUsersDataStatus.postValue(Response.Loading)
       delay(2000)
       if(!userRepository.checkEmailExists(user.email_id)) {

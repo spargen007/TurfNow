@@ -8,4 +8,8 @@ class CategoryRepositoryImpl(private val categoryDao: CategoryDao):CategoryRepos
     override suspend fun getAllCategory(): Flow<List<Category>> {
        return categoryDao.getAllCategory()
     }
+
+    override suspend fun getCategoryForIds(categoryId: List<String>): Flow<List<Category>> {
+       return categoryDao.getCategoryForIds(categoryId)
+    }
 }

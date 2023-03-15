@@ -5,6 +5,7 @@ import com.example.turfnow.database.entity.Category
 import com.example.turfnow.database.entity.Turf
 import com.example.turfnow.repository.CategoryRepository
 import com.example.turfnow.repository.TurfRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val turfRepository: TurfRepository,private val categoryRepository: CategoryRepository): ViewModel() {
@@ -16,12 +17,12 @@ class HomeViewModel(private val turfRepository: TurfRepository,private val categ
         getAllTurfAndCategoryList()
     }
     private fun getAllTurfAndCategoryList(){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             turfRepository.getAllTurf().collect{
                 _turfList.postValue(it)
             }
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             categoryRepository.getAllCategory().collect {
                 _categoryList.postValue(it)
             }

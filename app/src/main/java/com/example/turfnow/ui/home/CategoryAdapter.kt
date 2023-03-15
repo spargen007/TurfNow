@@ -17,7 +17,7 @@ class CategoryAdapter(private val context:Context,private val onItemClicked: (Ca
         RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category,context: Context) {
             binding.categoryText.text = category.name
-            Glide.with(context).load(category.image).into(binding.categoryImage);
+            Glide.with(context).load(category.image).into(binding.categoryImage)
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {

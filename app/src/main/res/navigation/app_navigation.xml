@@ -17,7 +17,9 @@
             />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment">
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true">
         </action>
 
 
@@ -41,5 +43,17 @@
     <argument
         android:name="user"
         app:argType="com.example.turfnow.database.entity.User" />
+        <action
+            android:id="@+id/action_homeFragment_to_singleTurfFragment"
+            app:destination="@id/singleTurfFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleTurfFragment"
+        android:name="com.example.turfnow.ui.singleturf.SingleTurfFragment"
+        android:label="SingleTurfFragment"
+        tools:layout="@layout/single_turf_layout">
+        <argument
+            android:name="turf"
+            app:argType="com.example.turfnow.database.entity.Turf" />
     </fragment>
 </navigation>

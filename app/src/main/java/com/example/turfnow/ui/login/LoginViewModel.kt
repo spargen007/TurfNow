@@ -3,6 +3,7 @@ package com.example.turfnow.ui.login
 import androidx.lifecycle.*
 import com.example.turfnow.repository.UserRepository
 import com.example.turfnow.result.Response
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -11,7 +12,7 @@ class LoginViewModel(private val userRepository: UserRepository):ViewModel(){
     val loginUsersDataStatus: LiveData<Response?> = _loginUsersDataStatus
     fun login(id:String,password:String){
         _loginUsersDataStatus.value=null
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             _loginUsersDataStatus.postValue(Response.Loading)
             delay(2000)
             if(userRepository.checkEmailExists(id)) {
