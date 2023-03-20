@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/bookingIdText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Booking id:"
+        android:textColor="#00BCD4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/bookingNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/bookingIdText"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="1"
+        android:textColor="@color/white"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:id="@+id/turfNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/turf_name1"
+        android:textColor="#00BCD4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bookingIdText" />
+    <TextView
+        android:id="@+id/turfName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/turfNameText"
+        android:text="Rush"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/bookingNumberText"
+        android:layout_marginStart="10dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/categoryNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ground_type"
+        android:textColor="#00BCD4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/turfNameText" />
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/categoryNameText"
+        android:text="@string/basket_ball"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/turfName"
+        android:layout_marginStart="10dp">
+    </TextView>
+
+
+
+
+    <TextView
+        android:id="@+id/date_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:textColor="#00BCD4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categoryNameText" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="04-04-2023"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/categoryName"
+        app:layout_constraintLeft_toRightOf="@id/date_name_text"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:id="@+id/slotNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/slots"
+        android:textColor="#00BCD4"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/slotList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/slotNameText"
+        android:text="02:55-03:55,05:33-08:44"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/date_name_text"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:id="@+id/totalPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#00BCD4"
+        android:text="@string/total_price"
+        app:layout_constraintLeft_toRightOf="@id/date"
+        app:layout_constraintTop_toBottomOf="@id/turfNameText"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/totalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40000"
+        android:textColor="@color/red"
+        app:layout_constraintLeft_toRightOf="@id/totalPriceText"
+        app:layout_constraintTop_toBottomOf="@id/turfNameText"
+        android:layout_marginStart="10dp" />
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

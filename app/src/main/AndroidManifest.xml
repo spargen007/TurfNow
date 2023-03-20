@@ -29,6 +29,10 @@
             android:exported="true"
             android:label="TurfNow">
         </activity>
+        <activity
+            android:name=".BottomNavigationActivity"
+            android:exported="true"
+            android:label="TurfNow" />
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
@@ -44,11 +43,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val userId :String?= requireActivity().intent.extras?.getString("user")
         turfRecyclerview = binding.turfRecyclerView
         turfAdapter = TurfAdapter(context = requireContext()){
-            Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
-            val action:NavDirections = HomeFragmentDirections.actionHomeFragmentToSingleTurfFragment(it)
-            findNavController().navigate(action)
+        findNavController().navigate( HomeFragmentDirections.actionHomeFragmentToSingleTurfFragment(it,user!!))
         }
         turfRecyclerview.adapter=turfAdapter
         turfRecyclerview.layoutManager= LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -57,25 +55,25 @@ class HomeFragment : Fragment() {
             turfAdapter.submitList(it)
         }
         categoryRecyclerview = binding.categoriesRecyclerView
+        categoryRecyclerview.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL))
         categoryRecyclerview.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         val categoryAdapter = CategoryAdapter(requireContext()){category ->
             homeViewModel.viewModelScope.launch {
                 val action: NavDirections =
-                    HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(homeViewModel.getTurfForCategory(category).toTypedArray())
+                    HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(homeViewModel.getTurfForCategory(category).toTypedArray(),category.name,user!!)
                 findNavController().navigate(action)
             }
         }
         categoryRecyclerview.adapter = categoryAdapter
-        categoryRecyclerview.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL))
         homeViewModel.categoryList.observe(viewLifecycleOwner){
             categoryAdapter.submitList(it)
         }
-        val userId :String?= requireActivity().intent.extras?.getString("user")
         if(userId!=null){
             homeViewModel.viewModelScope.launch {
                 user = homeViewModel.getUser(userId)
                 binding.textUserName.text = user?.name
                 binding.emailIdText.text = user?.email_id
+                requireActivity().intent.putExtra("userid",user?.id)
             }
         }
         binding.searchBarTextView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -83,7 +81,7 @@ class HomeFragment : Fragment() {
                homeViewModel.viewModelScope.launch {
                    if (query != null) {
                      val turflist =  homeViewModel.getSearchResult(query)
-                       val action:NavDirections = HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(turflist.toTypedArray())
+                       val action:NavDirections = HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(turflist.toTypedArray(),query,user!!)
                        findNavController().navigate(action)
                    }
                }

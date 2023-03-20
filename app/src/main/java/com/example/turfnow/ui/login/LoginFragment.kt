@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
@@ -69,7 +68,6 @@ class LoginFragment : Fragment() {
         data.apply {
             when(this) {
                 is Response.Success -> {
-                    Toast.makeText(requireContext(), this.data.toString(), Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
                     intent.putExtra("user", (this.data as User).email_id)
                     startActivity(intent)
