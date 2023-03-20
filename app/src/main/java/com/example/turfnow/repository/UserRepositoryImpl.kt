@@ -23,4 +23,8 @@ class UserRepositoryImpl(private var userDao: UserDao):UserRepository {
         }
         return null
     }
+
+    override fun getUserByEmail(email: String): User? {
+        return userDao.getUserByEmail(email)
+    }
 }

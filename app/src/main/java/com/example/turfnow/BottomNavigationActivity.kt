@@ -1,10 +1,11 @@
 package com.example.turfnow
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.turfnow.databinding.ActivityBottomNavigationBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,22 +25,19 @@ class BottomNavigationActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_activity_bottom_navigation) as NavHostFragment
         navController = navHostFragment.navController
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.home_fragment, R.id.favourites_fragment,R.id.my_account_fragment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
-
-    fun setBottomNavigationViewVisibility(visible: Boolean) {
-        if (visible) {
-            binding.navView.visibility = View.VISIBLE
-        } else {
-            binding.navView.visibility = View.GONE
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
+
 }

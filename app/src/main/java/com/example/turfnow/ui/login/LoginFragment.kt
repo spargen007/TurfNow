@@ -1,5 +1,6 @@
 package com.example.turfnow.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,21 +8,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.turfnow.BottomNavigationActivity
-import com.example.turfnow.database.AppDatabase
 import com.example.turfnow.database.entity.User
 import com.example.turfnow.databinding.FragmentLoginBinding
-import com.example.turfnow.repository.UserRepositoryImpl
+import com.example.turfnow.dependency.MyApplication
 import com.example.turfnow.result.Response
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory(
-            UserRepositoryImpl(AppDatabase.getDatabase(requireContext()).userDao())
-        )
+        LoginViewModelFactory(MyApplication(requireContext()).appContainer)
     }
     private var _binding: FragmentLoginBinding? = null
 
@@ -31,8 +31,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val mainActivity = requireActivity() as BottomNavigationActivity
-        mainActivity.setBottomNavigationViewVisibility(false)
+
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
        return binding.root
     }
@@ -43,8 +42,13 @@ class LoginFragment : Fragment() {
             if(!binding.emailIdText.text.isNullOrBlank() && !binding.passwordText.text.isNullOrBlank()){
                 binding.inputLayoutLoginEmailID.error = null
                 binding.inputLayoutLoginPassword.error = null
-                viewModel.login(binding.emailIdText.text.toString(),binding.passwordText.text.toString())
-                onLogin()
+                viewModel.viewModelScope.launch{
+                    val data = viewModel.login(
+                        binding.emailIdText.text.toString(),
+                        binding.passwordText.text.toString()
+                    )
+                    onLogin(data)
+                }
             }
             else{
                 binding.inputLayoutLoginEmailID.error = "Please Enter Email-Id"
@@ -53,7 +57,7 @@ class LoginFragment : Fragment() {
             }
         }
         binding.signupText.setOnClickListener {
-            val action:NavDirections = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
+            val action:NavDirections = LoginFragmentDirections.actionLoginFragment2ToSignupFragment2()
             findNavController().navigate(action)
         }
     }
@@ -61,28 +65,19 @@ class LoginFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    private fun onLogin(){
-        viewModel.loginUsersDataStatus.observe(viewLifecycleOwner){
-            when(it){
-                is Response.Loading -> {
-                    binding.loginBtn.visibility = View.GONE
-                    binding.loginProgressBar.visibility = View.VISIBLE
-                }
-                is Response.Success ->{
-                    binding.loginBtn.visibility = View.VISIBLE
-                    binding.loginProgressBar.visibility = View.INVISIBLE
-                    Toast.makeText(requireContext(),it.data.toString(), Toast.LENGTH_SHORT).show()
-                    val action:NavDirections = LoginFragmentDirections.actionLoginFragmentToHomeFragment(it.data as User)
-                    findNavController().navigate(action)
-
+    private fun onLogin(data:Response){
+        data.apply {
+            when(this) {
+                is Response.Success -> {
+                    Toast.makeText(requireContext(), this.data.toString(), Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
+                    intent.putExtra("user", (this.data as User).email_id)
+                    startActivity(intent)
                 }
                 is Response.Error -> {
-                    Snackbar.make(binding.root, it.message.toString(), Snackbar.LENGTH_SHORT).show()
-                    binding.loginProgressBar.visibility = View.GONE
-                    binding.loginBtn.visibility = View.VISIBLE
+                    Snackbar.make(binding.root, this.message.toString(), Snackbar.LENGTH_SHORT).show()
                 }
                 else -> {
-
                 }
             }
         }

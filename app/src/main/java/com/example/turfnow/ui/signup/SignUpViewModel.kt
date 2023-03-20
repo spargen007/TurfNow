@@ -2,6 +2,7 @@ package com.example.turfnow.ui.signup
 
 import androidx.lifecycle.*
 import com.example.turfnow.database.entity.User
+import com.example.turfnow.dependency.Appcontainer
 import com.example.turfnow.repository.UserRepository
 import com.example.turfnow.result.Response
 import kotlinx.coroutines.Dispatchers
@@ -30,11 +31,11 @@ class SignUpViewModel(private var userRepository: UserRepository):ViewModel(){
     }
   }
 }
-class SignUpViewModelFactory(private var userRepository: UserRepository) : ViewModelProvider.Factory {
+class SignUpViewModelFactory(private var appContainer: Appcontainer) : ViewModelProvider.Factory {
   override fun <T : ViewModel> create(modelClass: Class<T>): T {
     if (modelClass.isAssignableFrom(SignUpViewModel::class.java)) {
       @Suppress("UNCHECKED_CAST")
-      return SignUpViewModel(userRepository) as T
+      return SignUpViewModel(appContainer.userRepository) as T
     }
     throw IllegalArgumentException("Unknown ViewModel class")
   }

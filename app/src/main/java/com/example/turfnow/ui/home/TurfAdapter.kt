@@ -12,9 +12,9 @@ import com.example.turfnow.databinding.TurfListLayoutBinding
 class TurfAdapter(private val context:Context,private val onItemClicked: (Turf) -> Unit) : ListAdapter<Turf,TurfAdapter.TurfViewHolder>(DiffCallback){
     class TurfViewHolder(private var binding : TurfListLayoutBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(turf: Turf,context: Context){
-            binding.turfNameText.setText(turf.name)
-            binding.locationText.setText(turf.location)
-            binding.ratingText.setText(turf.ratings)
+            binding.turfNameText.text = turf.name
+            binding.locationText.text = turf.location
+            binding.ratingText.text = turf.ratings
             Glide.with(context).load(turf.image).into(binding.turfImage)
         }
     }

@@ -9,4 +9,19 @@ class TurfRepositoryImpl(private val turfDao: TurfDao):TurfRepository {
         return turfDao.getAllTurf()
     }
 
+    override suspend fun getTurfForId(turfId: List<String>): List<Turf>{
+        return turfDao.getTurfForId(turfId)
+    }
+    override suspend fun getSearchResult(search:String): List<Turf>{
+        return turfDao.getSearchResult(search)
+    }
+
+    override suspend fun getAllLocations():Flow<List<String>>{
+        return turfDao.getAllLocations()
+    }
+
+    override suspend fun getlocationResult(search:String): List<Turf>{
+        return turfDao.getlocationResult(search)
+    }
+
 }

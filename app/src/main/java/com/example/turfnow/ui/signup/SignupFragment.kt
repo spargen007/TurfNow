@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import com.example.turfnow.database.AppDatabase
 import com.example.turfnow.database.entity.User
 import com.example.turfnow.databinding.FragmentSignupBinding
-import com.example.turfnow.repository.UserRepositoryImpl
+import com.example.turfnow.dependency.MyApplication
 import com.example.turfnow.result.Response
 import com.example.turfnow.validator.EmailValidator
 import com.example.turfnow.validator.EmptyValidator
@@ -23,11 +22,8 @@ import com.example.turfnow.validator.base.ValidateResult
 import com.google.android.material.snackbar.Snackbar
 
 class SignupFragment : Fragment() {
-//    lateinit var viewModel:SignUpViewModel
     private val viewModel: SignUpViewModel by viewModels {
-      SignUpViewModelFactory(
-          UserRepositoryImpl(AppDatabase.getDatabase(requireContext()).userDao())
-        )
+      SignUpViewModelFactory(MyApplication(requireContext()).appContainer)
     }
     private var _binding:FragmentSignupBinding?=null
     private val binding get() = _binding!!
@@ -123,7 +119,7 @@ class SignupFragment : Fragment() {
                     Toast.makeText(requireContext(), "Sign-UP successful/nLogin Again To Continue", Toast.LENGTH_SHORT)
                         .show()
                     val action1: NavDirections =
-                        SignupFragmentDirections.actionSignupFragmentToLoginFragment()
+                        SignupFragmentDirections.actionSignupFragment2ToLoginFragment2()
                     findNavController().navigate(action1)
                 }
                 is Response.Error -> {

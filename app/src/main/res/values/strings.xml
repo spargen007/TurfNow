@@ -45,5 +45,8 @@
     <string name="venue">Venue</string>
     <string name="category">category</string>
     <string name="game">Game</string>
+    <string name="favourites">Favourites</string>
+    <string name="my_account">My Account</string>
+    <string name="all_location">All-location</string>
 
 </resources>
