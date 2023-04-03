@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homemenu"
+    app:startDestination="@+id/home_fragment">
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="com.example.turfnow.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_singleTurfFragment"
+            app:destination="@id/singleTurfFragment"/>
+        <action
+            android:id="@+id/action_home_fragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/singleTurfFragment"
+        android:name="com.example.turfnow.ui.singleturf.SingleTurfFragment"
+        android:label="SingleTurfFragment"
+        tools:layout="@layout/single_turf_layout">
+    <argument
+        android:name="turf"
+        app:argType="com.example.turfnow.database.entity.Turf" />
+        <action
+            android:id="@+id/action_singleTurfFragment_to_availabilityScreenFragment"
+            app:destination="@id/availabilityScreenFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.turfnow.database.entity.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.example.turfnow.ui.search.SearchResultFragment"
+        android:label="searchResultFragment"
+        tools:layout="@layout/fragment_search_results_layout">
+        <argument
+            android:name="turflist"
+            app:argType="com.example.turfnow.database.entity.Turf[]" />
+        <action
+            android:id="@+id/action_searchResultFragment_to_singleTurfFragment"
+            app:destination="@id/singleTurfFragment" />
+        <argument
+            android:name="result"
+            app:argType="string" />
+        <argument
+            android:name="user"
+            app:argType="com.example.turfnow.database.entity.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/availabilityScreenFragment"
+        android:name="com.example.turfnow.ui.availability_screen.AvailabilityScreenFragment"
+        android:label="AvailabilityScreenFragment"
+        tools:layout="@layout/fragment_availability">
+        <argument
+            android:name="groundTypeId"
+            app:argType="long" />
+        <argument
+            android:name="user"
+            app:argType="com.example.turfnow.database.entity.User" />
+        <action
+            android:id="@+id/action_availabilityScreenFragment_to_bookingConfirmationFragment"
+            app:destination="@id/bookingConfirmationFragment"
+            app:popUpTo="@id/home_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingConfirmationFragment"
+        android:name="com.example.turfnow.ui.BookingConfirmationFragment"
+        android:label="BookingConfirmationFragment"
+        tools:layout="@layout/booking_confirmation">
+        <action
+            android:id="@+id/action_bookingConfirmationFragment_to_home_fragment"
+            app:destination="@id/home_fragment"
+            app:popUpTo="@id/home_fragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>
