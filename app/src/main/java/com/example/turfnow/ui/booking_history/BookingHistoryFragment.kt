@@ -49,9 +49,9 @@ class BookingHistoryFragment : Fragment() {
         bookingAdapter = BookingAdapter {  }
             bookingHistoryViewModel.bookingsList.observe(viewLifecycleOwner){
                 bookingAdapter.submitList(it)
+                binding.noBookingsText.isVisible = bookingAdapter.itemCount <= 0
             }
         bookingHistoryViewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
-            binding.noBookingsText.isVisible = bookingAdapter.itemCount <= 0
             if(message!=null){
                 binding.loadingBar.isVisible = true
                 binding.bookingHistoryRecyclerView.isVisible =false

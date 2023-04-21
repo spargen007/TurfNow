@@ -6,19 +6,20 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import java.util.concurrent.TimeUnit
 
 interface FaqApiServices {
-    @GET("Faq.json")
+    @GET("faq")
     suspend fun getFaqs(): Response<List<Faq>>
 
     object RetrofitBuilder{
-        private const val BASE_URL = "https://raw.githubusercontent.com/spargen007/Indian-Cities-JSON/master/"
+        private const val BASE_URL = "http://192.168.43.14:9000/"
         val interceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
         val client = OkHttpClient.Builder().apply {
             this.addInterceptor(interceptor)
-        }.build()
+        }.readTimeout(120, TimeUnit.SECONDS).build()
 
         private fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
