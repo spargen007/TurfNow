@@ -1,6 +1,7 @@
 package com.example.turfnow
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -33,6 +34,24 @@ class BottomNavigationActivity : AppCompatActivity() {
 //        )
 //        setupActionBarWithNavController(navController)
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.home_fragment -> showBottomNav()
+                R.id.booking_history_fragment -> showBottomNav()
+                R.id.faq_fragment -> showBottomNav()
+                else -> hideBottomNav()
+            }
+        }
+    }
+    private fun showBottomNav() {
+        binding.navView.visibility = View.VISIBLE
+
+    }
+
+    private fun hideBottomNav() {
+        binding.navView.visibility = View.GONE
+
     }
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()

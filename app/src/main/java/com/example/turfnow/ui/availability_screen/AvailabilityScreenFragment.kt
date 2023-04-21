@@ -201,9 +201,10 @@ class AvailabilityScreenFragment :Fragment() {
         })
         timeAdapter.tracker = timeselectionTracker
         binding.nextButton.setOnClickListener {
-            binding.nextButton.isVisible = false
-            binding.loadingBar.isVisible = true
             availabilityViewModel.viewModelScope.launch (Dispatchers.IO) {
+                withContext(Dispatchers.Main){
+                binding.nextButton.isVisible = false
+                binding.loadingBar.isVisible = true}
                 val availabilityList = availabilityViewModel.checkAvailability(selectedground, selectedDate!!,seletedTimeSlots!!)
               if (availabilityList.all { !it.booked }){
                   try {
@@ -232,13 +233,14 @@ class AvailabilityScreenFragment :Fragment() {
                       }
                   }catch (e:Exception){
                       withContext(Dispatchers.Main) {
-                          binding.nextButton.isVisible = true
-                          binding.loadingBar.isVisible = false
                           Snackbar.make(
                               binding.root,
                               "Server down Please try again later....",
                               Snackbar.LENGTH_SHORT
                           ).show()
+                          binding.nextButton.isVisible = true
+                          binding.loadingBar.isVisible = false
+
                       }
                   }
               }
