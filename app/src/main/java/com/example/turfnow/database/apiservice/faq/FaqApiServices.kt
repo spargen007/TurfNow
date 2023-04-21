@@ -1,4 +1,4 @@
-package com.example.turfnow.database.apiservice
+package com.example.turfnow.database.apiservice.faq
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

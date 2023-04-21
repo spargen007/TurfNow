@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.turfnow.databinding.FragmentBookingHistoryBinding
 import com.example.turfnow.dependency.MyApplication
+import com.google.android.material.snackbar.Snackbar
 
 class BookingHistoryFragment : Fragment() {
 
@@ -38,6 +39,9 @@ class BookingHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loadingBar.isVisible = true
+        binding.bookingHistoryRecyclerView.isVisible = false
+        var snackbar:Snackbar?=null
         val userId :Long?= requireActivity().intent.extras?.getLong("userid")
         bookingHistoryViewModel.getBookingHistoryList(userId!!)
         bookingsRecyclerview = binding.bookingHistoryRecyclerView
@@ -45,13 +49,27 @@ class BookingHistoryFragment : Fragment() {
         bookingAdapter = BookingAdapter {  }
             bookingHistoryViewModel.bookingsList.observe(viewLifecycleOwner){
                 bookingAdapter.submitList(it)
-                binding.noBookingsText.isVisible = bookingAdapter.itemCount <= 0
             }
+        bookingHistoryViewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
+            binding.noBookingsText.isVisible = bookingAdapter.itemCount <= 0
+            if(message!=null){
+                binding.loadingBar.isVisible = true
+                binding.bookingHistoryRecyclerView.isVisible =false
+                snackbar = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
+                snackbar?.show()
+            }
+            else{
+                snackbar?.dismiss()
+                binding.loadingBar.isVisible = false
+                binding.bookingHistoryRecyclerView.isVisible = true
+            }
+
+        }
+
         bookingsRecyclerview.adapter = bookingAdapter
         bookingsRecyclerview.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
 
         }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

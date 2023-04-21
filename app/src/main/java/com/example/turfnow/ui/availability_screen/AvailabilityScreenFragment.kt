@@ -27,6 +27,7 @@ import com.example.turfnow.databinding.FragmentAvailabilityBinding
 import com.example.turfnow.dependency.MyApplication
 import com.example.turfnow.selection.MyItemDetailsLookup
 import com.example.turfnow.selection.MyKeyProvider
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -120,12 +121,18 @@ class AvailabilityScreenFragment :Fragment() {
                                     binding.notimeWarnMsg.isVisible = false
                                     binding.timeRecyclerView.isVisible = true}
                                     if(items.first()==currentDate.toString()) {
-                                            timeAdapter.submitList(it.filter {time->
+                                            val timeList = it.filter {time->
                                                 val currentTime = LocalTime.now()
                                                 val slotStart =
                                                     LocalTime.parse(time.slot_time.split("-")[0])
                                                 slotStart.isAfter(currentTime)
-                                            })
+                                            }
+                                        if(timeList.isNotEmpty()){
+                                        timeAdapter.submitList(timeList)}
+                                        else{
+                                            withContext(Dispatchers.Main){
+                                            binding.notimeWarnMsg.isVisible = true}
+                                        }
                                         }
                                     else{
                                         timeAdapter.submitList(it)
@@ -194,19 +201,51 @@ class AvailabilityScreenFragment :Fragment() {
         })
         timeAdapter.tracker = timeselectionTracker
         binding.nextButton.setOnClickListener {
+            binding.nextButton.isVisible = false
+            binding.loadingBar.isVisible = true
             availabilityViewModel.viewModelScope.launch (Dispatchers.IO) {
                 val availabilityList = availabilityViewModel.checkAvailability(selectedground, selectedDate!!,seletedTimeSlots!!)
               if (availabilityList.all { !it.booked }){
-                  availabilityViewModel.markSlotAsBooked(selectedground, selectedDate!!,seletedTimeSlots!!)
-                  availabilityViewModel.insertBookingWithSlots(Bookings(0,selectedDate!!,args.user.id,selectedground,totalPrice),availableTimeSlotList!!.filter {
-                      seletedTimeSlots!!.contains(it.slot_time)
-                  })
-                  withContext(Dispatchers.Main){
-                  val action:NavDirections = AvailabilityScreenFragmentDirections.actionAvailabilityScreenFragmentToBookingConfirmationFragment()
-                  findNavController().navigate(action)}
-
+                  try {
+                      availabilityViewModel.insertBookingToWeb(
+                          Bookings(
+                              0,
+                              selectedDate!!,
+                              args.user.id,
+                              selectedground,
+                              totalPrice
+                          ), availableTimeSlotList!!.filter {
+                              seletedTimeSlots!!.contains(it.slot_time)
+                          })
+                      availabilityViewModel.markSlotAsBooked(
+                          selectedground,
+                          selectedDate!!,
+                          seletedTimeSlots!!
+                      )
+//                  availabilityViewModel.insertBookingWithSlots(Bookings(0,selectedDate!!,args.user.id,selectedground,totalPrice),availableTimeSlotList!!.filter {
+//                      seletedTimeSlots!!.contains(it.slot_time)
+//                  })
+                      withContext(Dispatchers.Main) {
+                          val action: NavDirections =
+                              AvailabilityScreenFragmentDirections.actionAvailabilityScreenFragmentToBookingConfirmationFragment()
+                          findNavController().navigate(action)
+                      }
+                  }catch (e:Exception){
+                      withContext(Dispatchers.Main) {
+                          binding.nextButton.isVisible = true
+                          binding.loadingBar.isVisible = false
+                          Snackbar.make(
+                              binding.root,
+                              "Server down Please try again later....",
+                              Snackbar.LENGTH_SHORT
+                          ).show()
+                      }
+                  }
               }
               else{
+                  withContext(Dispatchers.Main){
+                      binding.nextButton.isVisible = true
+                      binding.loadingBar.isVisible = false}
                   val bookedErrorList:MutableList<String> = mutableListOf()
                   availabilityList.forEach{
                       if(it.booked){

@@ -1,4 +1,4 @@
-package com.example.turfnow.database.apiservice
+package com.example.turfnow.database.apiservice.faq
 
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response

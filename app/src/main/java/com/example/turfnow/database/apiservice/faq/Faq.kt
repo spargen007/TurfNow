@@ -1,4 +1,4 @@
-package com.example.turfnow.database.apiservice
+package com.example.turfnow.database.apiservice.faq
 
 import com.google.gson.annotations.SerializedName
 

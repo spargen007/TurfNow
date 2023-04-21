@@ -1,8 +1,8 @@
 package com.example.turfnow.ui.faq
 
 import androidx.lifecycle.*
-import com.example.turfnow.database.apiservice.Faq
-import com.example.turfnow.database.apiservice.FaqRepository
+import com.example.turfnow.database.apiservice.faq.Faq
+import com.example.turfnow.database.apiservice.faq.FaqRepository
 import com.example.turfnow.dependency.Appcontainer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

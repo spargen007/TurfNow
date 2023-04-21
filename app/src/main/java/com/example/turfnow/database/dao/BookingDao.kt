@@ -47,6 +47,10 @@ interface BookingDao {
     @Query("SELECT * FROM category WHERE id = :categoryId")
     suspend fun getSingleCategoryForId(categoryId:Long):Category
 
+    @Query("SELECT * FROM ground_type WHERE id = :groundId")
+    suspend fun getGroundTypeForId(groundId:Long):GroundType
+
+
     @Transaction
     suspend fun getBookingHistoryList(userId: Long):List<BookingswithTurf>{
         val bookingList = getBookingList(userId)

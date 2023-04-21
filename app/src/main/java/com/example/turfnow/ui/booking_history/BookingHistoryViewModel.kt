@@ -7,12 +7,22 @@ import com.example.turfnow.repository.BookingRepository
 import kotlinx.coroutines.launch
 
 class BookingHistoryViewModel(private val bookingRepository: BookingRepository): ViewModel() {
+
     private val _bookingsList = MutableLiveData<List<BookingDao.BookingswithTurf>>()
     val bookingsList: LiveData<List<BookingDao.BookingswithTurf>> = _bookingsList
 
+    private val _snackbarMessage = MutableLiveData<String?>()
+    val snackbarMessage: LiveData<String?> get() = _snackbarMessage
+
      fun getBookingHistoryList(userId: Long){
         viewModelScope.launch {
-            _bookingsList.postValue(bookingRepository.getBookingHistoryList(userId))
+            try {
+                _bookingsList.postValue(bookingRepository.getBookingHistoryListFromWeb(userId))
+                _snackbarMessage.postValue(null)
+            }
+            catch (e:Exception){
+                _snackbarMessage.postValue("Server down Please try again later....")
+              }
         }
     }
 

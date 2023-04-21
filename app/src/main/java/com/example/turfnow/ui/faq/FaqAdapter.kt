@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.turfnow.database.apiservice.Faq
+import com.example.turfnow.database.apiservice.faq.Faq
 import com.example.turfnow.databinding.FaqTextLayoutBinding
 
 class FaqAdapter : ListAdapter<Faq, FaqAdapter.FaqViewHolder>(DiffCallback){

@@ -10,7 +10,7 @@ import com.example.turfnow.database.entity.*
 import com.example.turfnow.util.Constants
 
 @Database(entities = [User::class,Turf::class,Category::class,GroundType::class,Availability::class,
-                     Bookings::class,BookingSlots::class], version = 10)
+                     Bookings::class,BookingSlots::class], version = 11)
 abstract class AppDatabase : RoomDatabase() {
 
 
@@ -33,6 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context,
                     AppDatabase::class.java,
                     "turfNow_Database")
+                    .fallbackToDestructiveMigration()
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
@@ -42,7 +43,6 @@ abstract class AppDatabase : RoomDatabase() {
                             db.execSQL(Constants.AVAILABILE_SLOTS)
                         }
                     })
-                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
 
